@@ -2,6 +2,7 @@ from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import StringVar
 from tkinter import messagebox
+import Queries
 
 def register():
 	fields = emptyFields()
@@ -9,9 +10,9 @@ def register():
 		messagebox.showerror(title="Error",message="No deben haber campos vacios.")
 	else:
 		verifyPassword()
-		clear()
 	# root.destroy()
 	# import login.py
+
 def verifyPassword():
 	emptyFields()
 	pass1 = password.get()
@@ -20,21 +21,34 @@ def verifyPassword():
 		messagebox.showerror(title="Error", message="Las contraseñas no coinciden.")
 	else:
 		if len(pass1) <8:
+			clear(False)
 			messagebox.showerror(title="Error", message="La contraseña debe tener minimo 8 caracteres.")
 		else:
-			messagebox.showinfo(title="Registro exitoso", message="Registro exitoso.")
+			result = Queries.create_user(identification.get(), fullname.get(), username.get(), pass1,admin.get())
+			if result == 1:
+				messagebox.showinfo(title="Registro exitoso", message="Registro exitoso.")
+				clear(True)
+			else :
+				messagebox.showinfo(title="Registro fallido", message="Registro fallido, valide usuario.")
+				clear(False)
+			
+
 def emptyFields():
 	if identification.get()=="" or fullname.get()=="" or username.get() == "" or password.get() == "" or verify_password.get() == "":
 		if admin.get() == 0 and billing.get() == 0:
 			return 0
-def clear():
-	identification.set("")
-	fullname.set("")
-	username.set("")
-	password.set("")
-	verify_password.set("")
-	admin.set(0)
-	billing.set(0)
+
+def clear(isInsert):
+	if isInsert :
+		password.set("")
+		verify_password.set("")
+	else :
+		password.set("")
+		verify_password.set("")
+	
+
+
+	
 font = ('Bahnschrift Light', 11) 
 root = Tk()
 root.geometry("440x310+460+100")

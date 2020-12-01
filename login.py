@@ -12,7 +12,7 @@ def next_int():
 	elif inf != None :
 		root.destroy()
 		import menu
-		menu.meMain(inf)
+		menu.load_interface(inf[0],inf[1],inf[2])
 
 def get_Information():
 	result = None
