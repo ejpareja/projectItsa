@@ -1,4 +1,5 @@
 import mysql.connector 
+
 def connection() :
 
     dbQ = mysql.connector.connect(
@@ -107,8 +108,6 @@ def get_product() :
     sql = "SELECT id, referencia, nombre, descripcion, unidad, precio_compra, precio_venta FROM productos"
     cursor.execute(sql)
     results =  cursor.fetchall()
-    for i in results :
-        print(i)
     dbQ.close()
     return results
 
@@ -125,9 +124,6 @@ def get_product_ids(type_filter, filter) :
     args = ("%"+ filter + "%")
     cursor.execute(sql, args)
     results =  cursor.fetchall()
-    for i in results :
-        print(i)
-    dbQ.close()
     return results
 
 def get_price(reference) :
@@ -137,9 +133,6 @@ def get_price(reference) :
     args = (reference)
     cursor.execute(sql)
     results =  cursor.fetchone()
-    for i in results :
-        print(i)
-    dbQ.close()
     return results
 
 def get_invoices() :

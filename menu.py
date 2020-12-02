@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import StringVar
 from tkinter import messagebox
+from datetime import date
 
 
 def intRegister(root):
@@ -11,6 +12,7 @@ def intFacturation():
 	import facturation.py
 
 def load_interface(name, ide, role):
+	date_now = date.today()
 	font1 = ('Bahnschrift Light', 14) 
 	font = ('Bahnschrift Light', 12)
 	root = Tk()
@@ -19,6 +21,8 @@ def load_interface(name, ide, role):
 	root.title("Menú")
 	root.iconbitmap('presupuesto.ico')
 	root.config(bg="#222f3e")
+
+	
 	
 	Label(root, text="Menú", font=font1, bg="#c8d6e5", fg="black").place(x=0, y=0, width="330", height="50")
 	#RegisterWindow
