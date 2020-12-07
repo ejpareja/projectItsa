@@ -3,7 +3,7 @@ from PIL import ImageTk, Image
 from tkinter import StringVar
 from tkinter import messagebox
 import Queries
-
+import mysql.connector
 
 def next_int():
 	inf = get_Information()
@@ -11,8 +11,7 @@ def next_int():
 		messagebox.showerror(title="Error", message="Error, verifique su usuario o contraseña.")
 	elif inf != None :
 		root.destroy()
-		import menu
-		menu.load_interface(inf[0],inf[1],inf[2])
+		import menu		
 
 def get_Information():
 	result = None

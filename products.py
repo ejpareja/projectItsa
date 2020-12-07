@@ -68,5 +68,6 @@ saleprice = StringVar()
 Label(root, text="Precio Venta:", font=font, bg="#222f3e", fg="white").place(x=390, y=210)
 Entry(root, textvariable=saleprice, font=font, bg="#c8d6e5").place(x=390, y=240, width="60")
 #button
-Button(root, text="Registrar Producto", font=font, bg="#c8d6e5", fg="black", command=db_Register).place(x=190, y=300)
+Button(root, text="Registrar Producto", font=font, bg="#c8d6e5", fg="black", command=db_Register).place(x=280, y=300)
+Button(root, text="Volver", font=font, bg="#c8d6e5", fg="black").place(x=170, y=300)
 root.mainloop()

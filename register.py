@@ -2,7 +2,6 @@ from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import StringVar
 from tkinter import messagebox
-import Queries
 
 def register():
 	fields = emptyFields()
@@ -10,9 +9,11 @@ def register():
 		messagebox.showerror(title="Error",message="No deben haber campos vacios.")
 	else:
 		verifyPassword()
-	# root.destroy()
-	# import login.py
+		clear()
 
+def back():
+	root.destroy()
+	import menu
 def verifyPassword():
 	emptyFields()
 	pass1 = password.get()
@@ -21,34 +22,21 @@ def verifyPassword():
 		messagebox.showerror(title="Error", message="Las contraseñas no coinciden.")
 	else:
 		if len(pass1) <8:
-			clear(False)
 			messagebox.showerror(title="Error", message="La contraseña debe tener minimo 8 caracteres.")
 		else:
-			result = Queries.create_user(identification.get(), fullname.get(), username.get(), pass1,admin.get())
-			if result == 1:
-				messagebox.showinfo(title="Registro exitoso", message="Registro exitoso.")
-				clear(True)
-			else :
-				messagebox.showinfo(title="Registro fallido", message="Registro fallido, valide usuario.")
-				clear(False)
-			
-
+			messagebox.showinfo(title="Registro exitoso", message="Registro exitoso.")
 def emptyFields():
 	if identification.get()=="" or fullname.get()=="" or username.get() == "" or password.get() == "" or verify_password.get() == "":
 		if admin.get() == 0 and billing.get() == 0:
 			return 0
-
-def clear(isInsert):
-	if isInsert :
-		password.set("")
-		verify_password.set("")
-	else :
-		password.set("")
-		verify_password.set("")
-	
-
-
-	
+def clear():
+	identification.set("")
+	fullname.set("")
+	username.set("")
+	password.set("")
+	verify_password.set("")
+	admin.set(0)
+	billing.set(0)
 font = ('Bahnschrift Light', 11) 
 root = Tk()
 root.geometry("440x310+460+100")
@@ -83,5 +71,6 @@ Label(root, text="Rol:", font=font, bg="#222f3e", fg="white").place(x=220, y=170
 Checkbutton(root, text="Administrador", variable=admin, font=font, bg="#222f3e", fg="black").place(x=260, y=170)
 Checkbutton(root, text="Facturador", variable=billing, font=font, bg="#222f3e", fg="black").place(x=260, y=200)
 #button
-Button(root, text="Registrar", font=font, bg="#c8d6e5", fg="black", command=register).place(x=160, y=250)
+Button(root, text="Registrar", font=font, bg="#c8d6e5", fg="black", command=register).place(x=220, y=250)
+Button(root, text="Volver", font=font, bg="#c8d6e5", fg="black", command=back).place(x=130, y=250)
 root.mainloop()

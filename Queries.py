@@ -1,5 +1,4 @@
 import mysql.connector 
-
 def connection() :
 
     dbQ = mysql.connector.connect(
@@ -31,7 +30,7 @@ def create_user(id, name, user, passw, role) :
     dbQ.commit()
     response = cursor.rowcount
     dbQ.close()
-    return 
+    return response
     
 def get_users() :
     dbQ = connection()
@@ -138,11 +137,48 @@ def get_price(reference) :
 def get_invoices() :
     dbQ = connection()
     cursor = dbQ.cursor()
-    sql = "SELECT * FROM ventas"
+    sql = "SELECT COUNT(*) as cantidad, p.referencia FROM ventas v INNER JOIN productos p on (v.id_producto = p.id)"
     cursor.execute(sql)
     results =  cursor.fetchall()
-    for i in results :
-        print(i)
-    dbQ.close()
     return results
 
+def secuencia():
+    dbQ = connection()
+    cursor = dbQ.cursor()
+    sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'itpe' AND   TABLE_NAME   = 'ventas';"
+    cursor.execute(sql)
+    response = cursor.fetchone()
+    dbQ.close()
+    return response[0]
+
+def create_invoice(id, quantity, unit_value, total_value, name_client, id_client, unit_previous):
+    result = False
+    dbQ = connection()
+    cursor = dbQ.cursor()
+    sql = "INSERT INTO ventas (id_producto, cantidad, valor_unidad, valor_total, nombre_cliente, id_cliente, fechaventa)  VALUES (%s,%s,%s,%s,%s,%s,'LOCALTIMESTAMP') "
+    argument = (id, quantity, unit_value, total_value, name_client, id_client)
+    cursor.execute(sql,argument)
+    dbQ.commit()
+    response = cursor.rowcount
+    print(response)
+    dbQ.close()
+    if response == 1:
+        unit = unit_previous - unit_value
+        res = udpate_producto(id,unit)
+        if res == 1:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+def udpate_producto(id,unit):
+    dbQ = connection()
+    cursor = dbQ.cursor()
+    sql = "UPDATE productos SET unidad = %s WHERE id = %s"
+    argument = (int(unit), id)
+    cursor.execute(sql,argument)
+    dbQ.commit()
+    response = cursor.rowcount
+    dbQ.close()
+    return response
